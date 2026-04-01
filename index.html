@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap&iacute;tulo 1 &mdash; PALABRAS</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;color:#1a1a1a;padding:1rem;}
+.app{max-width:800px;margin:0 auto;padding-bottom:3rem;}
+.chap-head{background:#0F6E56;padding:1.5rem 1.75rem 1.25rem;border-radius:12px;margin-bottom:1.25rem;}
+.chap-badge{font-size:11px;color:#5DCAA5;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.chap-head h1{font-size:32px;font-weight:600;color:#E1F5EE;letter-spacing:-0.5px;}
+.chap-head p{font-size:13px;color:#5DCAA5;margin-top:6px;font-style:italic;}
+.prog-bar{height:5px;background:#e0ddd6;border-radius:3px;margin-bottom:1.25rem;overflow:hidden;}
+.prog-fill{height:100%;background:#1D9E75;border-radius:3px;transition:width 0.4s;width:0%;}
+.nav{display:flex;flex-wrap:wrap;gap:3px;background:#eae8e1;padding:4px;border-radius:10px;margin-bottom:1.5rem;}
+.tab{padding:7px 12px;font-size:12px;border:none;background:none;cursor:pointer;color:#666;border-radius:7px;transition:all 0.1s;}
+.tab:hover{background:#fff;color:#1a1a1a;}
+.tab.active{background:#fff;color:#0F6E56;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
+.sec{display:none;}.sec.active{display:block;}
+.card{background:#fff;border:1px solid #e8e5de;border-radius:12px;padding:1.25rem;margin-bottom:1rem;}
+.card-title{font-size:11px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:0.75rem;}
+.ctab{width:100%;border-collapse:collapse;}
+.ctab th{background:#0F6E56;color:#E1F5EE;padding:9px 13px;font-size:13px;font-weight:600;text-align:left;}
+.ctab td{padding:9px 13px;font-size:14px;border-bottom:1px solid #f0ede6;}
+.ctab tr:last-child td{border-bottom:none;}
+.pn{color:#888;font-size:13px;}
+.fm{font-style:italic;font-weight:600;color:#0F6E56;}
+.obj-list{list-style:none;}
+.obj-list li{padding:8px 0;font-size:14px;border-bottom:1px solid #f0ede6;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+.obj-list li:last-child{border-bottom:none;}
+.obj-list li::before{content:"";width:7px;height:7px;background:#1D9E75;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.sched{width:100%;border-collapse:collapse;font-size:13px;}
+.sched th{background:#f5f4f0;padding:9px 11px;text-align:left;font-weight:600;color:#666;border-bottom:1px solid #e8e5de;}
+.sched td{padding:9px 11px;border-bottom:1px solid #f0ede6;vertical-align:top;}
+.bdg{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+.b-in{background:#E1F5EE;color:#085041;}
+.b-pr{background:#FAEEDA;color:#633806;}
+.b-sg{background:#E6F1FB;color:#042C53;}
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;}
+.fc{background:#fff;border:1px solid #ddd;border-radius:10px;padding:1rem;cursor:pointer;min-height:80px;display:flex;flex-direction:column;justify-content:center;transition:border-color 0.15s;}
+.fc:hover{border-color:#1D9E75;}
+.fc-fr{font-style:italic;color:#1a1a1a;font-size:13px;line-height:1.4;}
+.fc-bk{font-size:13px;color:#0F6E56;font-weight:600;display:none;margin-top:6px;}
+.fc-ht{font-size:11px;color:#aaa;margin-top:auto;padding-top:6px;}
+.fc.flipped .fc-bk{display:block;}
+.fc.flipped .fc-ht{display:none;}
+.fc.flipped{border-color:#1D9E75;background:#f0faf6;}
+.ex-s{margin-bottom:0.9rem;display:flex;align-items:baseline;gap:6px;font-size:14px;flex-wrap:wrap;line-height:1.8;}
+.ex-n{color:#aaa;min-width:20px;font-size:13px;}
+.blk{border:none;border-bottom:2px solid #ccc;background:none;font-size:14px;width:130px;color:#1a1a1a;padding:1px 4px;outline:none;font-family:inherit;}
+.blk:focus{border-bottom-color:#1D9E75;}
+.blk.ok{border-bottom-color:#639922;color:#3B6D11;}
+.blk.ng{border-bottom-color:#A32D2D;color:#A32D2D;}
+.chk-btn{padding:8px 18px;background:#0F6E56;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;margin-top:0.75rem;}
+.chk-btn:hover{background:#085041;}
+.rst-btn{padding:8px 14px;background:none;color:#666;border:1px solid #ddd;border-radius:8px;cursor:pointer;font-size:13px;margin-left:8px;margin-top:0.75rem;}
+.rst-btn:hover{color:#1a1a1a;border-color:#aaa;}
+.res-msg{margin-top:10px;font-size:13px;color:#555;}
+.match-cols{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.mi{padding:9px 11px;border:1px solid #ddd;border-radius:8px;cursor:pointer;font-size:12px;background:#fff;transition:all 0.12s;line-height:1.4;}
+.mi:hover{border-color:#1D9E75;}
+.mi.sel{border-color:#1D9E75;background:#f0faf6;color:#085041;}
+.mi.done{border-color:#639922;background:#f0f8e8;color:#3B6D11;pointer-events:none;}
+.mi.bad{border-color:#A32D2D;background:#fdf0f0;}
+.ex-box{background:#f5f4f0;border-left:3px solid #1D9E75;padding:10px 14px;margin:0.75rem 0;}
+.ex-box p{font-size:13px;color:#555;margin:2px 0;}
+.ojo{background:#FAEEDA;border-left:3px solid #EF9F27;padding:10px 14px;margin:0.75rem 0;}
+.ojo strong{color:#633806;font-size:12px;}
+.ojo p{font-size:13px;color:#854F0B;margin:4px 0 0;line-height:1.5;}
+.sec-title{font-size:19px;font-weight:600;color:#1a1a1a;margin-bottom:1rem;}
+.sec-sub{font-size:13px;color:#666;margin-top:-0.5rem;margin-bottom:1rem;}
+.res-lnk{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f0ede6;font-size:13px;}
+.res-lnk:last-child{border-bottom:none;}
+.res-lnk .rl{font-weight:600;color:#1a1a1a;min-width:65px;}
+.res-lnk a{color:#0F6E56;text-decoration:none;}
+.res-lnk a:hover{text-decoration:underline;}
+.act-step{display:flex;gap:13px;padding:11px 0;border-bottom:1px solid #f0ede6;}
+.act-step:last-child{border-bottom:none;}
+.snum{width:30px;height:30px;border-radius:50%;background:#0F6E56;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;}
+.sp-inp{width:100%;border:1px solid #ddd;border-radius:8px;padding:8px 11px;font-size:13px;background:#fff;color:#1a1a1a;font-family:inherit;outline:none;margin-top:5px;}
+.sp-inp:focus{border-color:#1D9E75;outline:2px solid #d0f0e4;}
+.sp-inp.ok{border-color:#639922;background:#f0f8e8;}
+.sp-inp.ng{border-color:#A32D2D;background:#fdf0f0;}
+.vowel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:1rem;}
+.vowel-card{text-align:center;padding:13px 8px;background:#f5f4f0;border-radius:10px;}
+.snd-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.snd-item{padding:10px 13px;background:#f5f4f0;border-radius:10px;font-size:13px;}
+.q-pill{display:inline-block;padding:2px 9px;border-radius:20px;background:#f0faf6;color:#085041;font-size:12px;font-style:italic;font-weight:600;margin:3px 3px 3px 0;}
+.cult-card{background:#f0faf6;border-color:#9FE1CB;}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="chap-head">
+    <div class="chap-badge">Cap&iacute;tulo 1</div>
+    <h1>PALABRAS</h1>
+    <p>In this chapter, you will introduce yourself and write a profile for an online platform.</p>
+  </div>
+
+  <div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
+
+  <div class="nav">
+    <button class="tab active" onclick="switchTab('ov',this)">Inicio</button>
+    <button class="tab" onclick="switchTab('vo',this)">Vocabulario</button>
+    <button class="tab" onclick="switchTab('se',this)">SER</button>
+    <button class="tab" onclick="switchTab('ll',this)">LLAMARSE</button>
+    <button class="tab" onclick="switchTab('pr',this)">Pronunciaci&oacute;n</button>
+    <button class="tab" onclick="switchTab('ej',this)">Ejercicios</button>
+    <button class="tab" onclick="switchTab('ac',this)">Actividad Oral</button>
+  </div>
+
+  <!-- INICIO -->
+  <div class="sec active" id="sec-ov">
+    <h2 class="sec-title">Learning Objectives / Objetivos del cap&iacute;tulo</h2>
+    <div class="card">
+      <ul class="obj-list">
+        <li>Introduce yourself and others using <em>llamarse</em> and <em>ser</em></li>
+        <li>Use subject pronouns correctly in spoken and written Spanish</li>
+        <li>Conjugate regular -ar, -er, and -ir verbs in the present tense</li>
+        <li>Apply definite and indefinite articles with gendered nouns</li>
+        <li>Identify and produce all sounds of the Spanish alphabet</li>
+        <li>Use essential classroom phrases and courtesy expressions</li>
+        <li>Write a 75&ndash;100 word online platform profile in Spanish</li>
+      </ul>
+    </div>
+    <h2 class="sec-title" style="margin-top:1.5rem;">Semana 1 &mdash; Week 1 Schedule</h2>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <table class="sched">
+        <thead><tr><th>Day</th><th>Type</th><th>Focus</th><th>Homework</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Weekend</strong></td><td><span class="bdg b-sg">Self-Guided</span></td><td>Vocab 1 + Alphabet</td><td>Review Initial Material</td></tr>
+          <tr><td><strong>Monday</strong></td><td><span class="bdg b-in">In-Class</span></td><td>Classroom Spanish + ser</td><td>Study &lsquo;ser&rsquo; conjugation</td></tr>
+          <tr><td><strong>Tuesday</strong></td><td><span class="bdg b-pr">Practice</span></td><td>llamarse + Pronunciation</td><td>Write 5 sentences using ser and llamarse</td></tr>
+          <tr><td><strong>Wednesday</strong></td><td><span class="bdg b-in">In-Class</span></td><td>Oral Introductions</td><td>SpanishDict + Weekly Quiz</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card cult-card" style="margin-top:1rem;">
+      <div class="card-title" style="color:#085041;">Nota Cultural</div>
+      <p style="font-size:14px;color:#085041;line-height:1.7;">The United States has the second-largest Spanish-speaking population in the world &mdash; over 41 million native speakers. Learning Spanish connects you to over 500 million speakers across 20 countries.</p>
+    </div>
+  </div>
+
+  <!-- VOCABULARIO -->
+  <div class="sec" id="sec-vo">
+    <h2 class="sec-title">Vocabulario 1 &mdash; En la clase de espa&ntilde;ol</h2>
+    <p class="sec-sub">Click each card to reveal the translation. / Haz clic para ver la traducci&oacute;n.</p>
+    <div class="fc-grid" id="fc-grid"></div>
+    <h2 class="sec-title" style="margin-top:1.5rem;">Recursos en l&iacute;nea / Online Resources</h2>
+    <div class="card">
+      <div class="res-lnk"><span class="rl">Video</span><a href="https://www.youtube.com/watch?v=ZAp28thZsKs" target="_blank">Spanish Alphabet &mdash; Se&ntilde;or Jordan</a></div>
+      <div class="res-lnk"><span class="rl">Practice</span><a href="https://studyspanish.com/alphabet" target="_blank">Interactive Alphabet Practice &mdash; StudySpanish.com</a></div>
+      <div class="res-lnk"><span class="rl">Video</span><a href="https://www.youtube.com/watch?v=lyy8pgKQHgY" target="_blank">The Verb Ser &ndash; Present Tense &mdash; maestrokaplan</a></div>
+      <div class="res-lnk"><span class="rl">Practice</span><a href="https://conjuguemos.com/verb/2035489" target="_blank">Ser Conjugation Drills &mdash; Conjuguemos</a></div>
+      <div class="res-lnk"><span class="rl">Quizlet</span><a href="https://quizlet.com/search?query=spanish+classroom+phrases+ser+llamarse&amp;type=sets" target="_blank">Classroom Phrases Quiz &mdash; Quizlet</a></div>
+      <div class="res-lnk"><span class="rl">Guide</span><a href="https://www.spanishdict.com/guide/spanish-alphabet-pronunciation" target="_blank">Alphabet &amp; Pronunciation &mdash; SpanishDict</a></div>
+    </div>
+  </div>
+
+  <!-- SER -->
+  <div class="sec" id="sec-se">
+    <h2 class="sec-title">Gram&aacute;tica 1 &mdash; Pronombres + SER</h2>
+    <div class="card">
+      <div class="card-title">Subject Pronouns / Pronombres personales</div>
+      <table class="ctab">
+        <thead><tr><th>Singular</th><th>Plural</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pn">yo</span> &mdash; I</td><td><span class="pn">nosotros / nosotras</span> &mdash; we</td></tr>
+          <tr><td><span class="pn">t&uacute;</span> &mdash; you (informal)</td><td rowspan="2"><span class="pn">ellos / ellas / ustedes</span> &mdash; they / you all</td></tr>
+          <tr><td><span class="pn">&eacute;l / ella / usted</span> &mdash; he / she / you (formal)</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px;color:#aaa;margin-top:10px;font-style:italic;">Note: In this course we use <em>ustedes</em> for all &lsquo;you all&rsquo; contexts &mdash; standard throughout Latin America.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">The Verb SER &mdash; To Be (identity, origin, profession, stable descriptions)</div>
+      <table class="ctab">
+        <thead><tr><th colspan="2">ser</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pn">yo</span> <span class="fm">soy</span></td><td><span class="pn">nosotros/as</span> <span class="fm">somos</span></td></tr>
+          <tr><td><span class="pn">t&uacute;</span> <span class="fm">eres</span></td><td><span class="pn">ellos/Uds.</span> <span class="fm">son</span></td></tr>
+          <tr><td><span class="pn">&eacute;l/ella/Ud.</span> <span class="fm">es</span></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="ex-box">
+        <p>Soy estudiante de espa&ntilde;ol. &rarr; <em>I am a Spanish student.</em></p>
+        <p>Ella es de M&eacute;xico. &rarr; <em>She is from Mexico.</em></p>
+        <p>Somos compa&ntilde;eros de clase. &rarr; <em>We are classmates.</em></p>
+      </div>
+      <div class="ojo">
+        <strong>&iexcl;OJO!</strong>
+        <p>Articles are omitted with professions after ser: <em>Soy estudiante</em> &mdash; NOT <em>Soy un estudiante</em>. Articles ARE used when the noun is modified: <em>Soy un estudiante muy dedicado.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LLAMARSE -->
+  <div class="sec" id="sec-ll">
+    <h2 class="sec-title">Gram&aacute;tica 2 &mdash; LLAMARSE</h2>
+    <div class="card">
+      <div class="card-title">The Verb LLAMARSE &mdash; To Be Named (reflexive verb)</div>
+      <table class="ctab">
+        <thead><tr><th colspan="2">llamarse</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pn">yo</span> <span class="fm">me llamo</span></td><td><span class="pn">nosotros/as</span> <span class="fm">nos llamamos</span></td></tr>
+          <tr><td><span class="pn">t&uacute;</span> <span class="fm">te llamas</span></td><td><span class="pn">ellos/Uds.</span> <span class="fm">se llaman</span></td></tr>
+          <tr><td><span class="pn">&eacute;l/ella/Ud.</span> <span class="fm">se llama</span></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="ex-box">
+        <p>&iquest;C&oacute;mo te llamas? &rarr; <em>What is your name? (informal)</em></p>
+        <p>&iquest;C&oacute;mo se llama usted? &rarr; <em>What is your name? (formal)</em></p>
+        <p>Me llamo Carlos. &rarr; <em>My name is Carlos.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRONUNCIACION -->
+  <div class="sec" id="sec-pr">
+    <h2 class="sec-title">Pronunciaci&oacute;n &mdash; El alfabeto espa&ntilde;ol</h2>
+    <div class="card">
+      <div class="card-title">Spanish Vowels &mdash; Always pure, never glide like English</div>
+      <div class="vowel-grid">
+        <div class="vowel-card"><div style="font-size:24px;font-weight:700;color:#0F6E56;">a</div><div style="font-size:12px;color:#888;margin-top:4px;">ah</div></div>
+        <div class="vowel-card"><div style="font-size:24px;font-weight:700;color:#0F6E56;">e</div><div style="font-size:12px;color:#888;margin-top:4px;">eh</div></div>
+        <div class="vowel-card"><div style="font-size:24px;font-weight:700;color:#0F6E56;">i</div><div style="font-size:12px;color:#888;margin-top:4px;">ee</div></div>
+        <div class="vowel-card"><div style="font-size:24px;font-weight:700;color:#0F6E56;">o</div><div style="font-size:12px;color:#888;margin-top:4px;">oh</div></div>
+        <div class="vowel-card"><div style="font-size:24px;font-weight:700;color:#0F6E56;">u</div><div style="font-size:12px;color:#888;margin-top:4px;">oo</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Special Sounds / Sonidos especiales</div>
+      <div class="snd-grid">
+        <div class="snd-item"><span style="font-size:17px;font-weight:700;color:#0F6E56;">&ntilde;</span><span style="color:#555;margin-left:9px;">&ldquo;ny&rdquo; &mdash; like <em>canyon</em></span></div>
+        <div class="snd-item"><span style="font-size:17px;font-weight:700;color:#0F6E56;">ll</span><span style="color:#555;margin-left:9px;">&ldquo;y&rdquo; sound</span></div>
+        <div class="snd-item"><span style="font-size:17px;font-weight:700;color:#0F6E56;">j</span><span style="color:#555;margin-left:9px;">&ldquo;h&rdquo; &mdash; breathy</span></div>
+        <div class="snd-item"><span style="font-size:17px;font-weight:700;color:#0F6E56;">rr</span><span style="color:#555;margin-left:9px;">trilled r</span></div>
+        <div class="snd-item"><span style="font-size:17px;font-weight:700;color:#0F6E56;">h</span><span style="color:#555;margin-left:9px;">always silent</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Letter Names &mdash; Ejemplo</div>
+      <p style="font-size:14px;color:#555;margin-bottom:10px;"><em>hola</em> &rarr; <strong style="color:#1a1a1a;">hache &ndash; o &ndash; ele &ndash; a</strong></p>
+      <p style="font-size:13px;color:#555;">Key letter names:
+        <span class="q-pill">a</span><span class="q-pill">be</span><span class="q-pill">ce</span><span class="q-pill">de</span><span class="q-pill">e</span><span class="q-pill">efe</span><span class="q-pill">ge</span><span class="q-pill">hache</span><span class="q-pill">i</span><span class="q-pill">jota</span><span class="q-pill">ka</span><span class="q-pill">ele</span><span class="q-pill">eme</span><span class="q-pill">ene</span><span class="q-pill">e&ntilde;e</span><span class="q-pill">o</span><span class="q-pill">pe</span><span class="q-pill">cu</span><span class="q-pill">erre</span><span class="q-pill">ese</span><span class="q-pill">te</span><span class="q-pill">u</span><span class="q-pill">ve</span><span class="q-pill">equis</span><span class="q-pill">ye</span><span class="q-pill">zeta</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- EJERCICIOS -->
+  <div class="sec" id="sec-ej">
+    <h2 class="sec-title">Ejercicios</h2>
+
+    <div class="card">
+      <div class="card-title">Ejercicio 1 &mdash; Emparejamiento / Matching</div>
+      <p style="font-size:13px;color:#666;margin-bottom:1rem;">Click a Spanish phrase, then click its English match. / Haz clic en la frase espa&ntilde;ola y luego en su traducci&oacute;n.</p>
+      <div id="match-cont"></div>
+      <div style="margin-top:0.75rem;">
+        <button class="rst-btn" style="margin-left:0;" onclick="resetMatch()">Reset</button>
+      </div>
+      <div class="res-msg" id="match-score"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Ejercicio 2 &mdash; Tabla de conjugaci&oacute;n: SER</div>
+      <p style="font-size:13px;color:#666;margin-bottom:1rem;">Complete from memory. / Completa de memoria.</p>
+      <table class="ctab">
+        <thead><tr><th colspan="2">ser</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pn">yo</span> <input class="blk" id="s1" data-answer="soy" placeholder="___"></td><td><span class="pn">nosotros/as</span> <input class="blk" id="s2" data-answer="somos" placeholder="___"></td></tr>
+          <tr><td><span class="pn">t&uacute;</span> <input class="blk" id="s3" data-answer="eres" placeholder="___"></td><td><span class="pn">ellos/Uds.</span> <input class="blk" id="s4" data-answer="son" placeholder="___"></td></tr>
+          <tr><td><span class="pn">&eacute;l/ella/Ud.</span> <input class="blk" id="s5" data-answer="es" placeholder="___"></td><td></td></tr>
+        </tbody>
+      </table>
+      <button class="chk-btn" onclick="checkBlanks('s1,s2,s3,s4,s5','sc2')">Check Answers</button>
+      <button class="rst-btn" onclick="resetBlanks('s1,s2,s3,s4,s5','sc2')">Reset</button>
+      <div class="res-msg" id="sc2"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Ejercicio 3 &mdash; Completar con SER</div>
+      <p style="font-size:13px;color:#666;margin-bottom:1rem;">Use the correct form of ser.</p>
+      <div class="ex-s"><span class="ex-n">1.</span>Yo <input class="blk" id="e1" data-answer="soy"> estudiante de espa&ntilde;ol en SPSCC.</div>
+      <div class="ex-s"><span class="ex-n">2.</span>&iquest;De d&oacute;nde <input class="blk" id="e2" data-answer="eres"> t&uacute;?</div>
+      <div class="ex-s"><span class="ex-n">3.</span>Ella <input class="blk" id="e3" data-answer="es"> profesora de ling&uuml;&iacute;stica.</div>
+      <div class="ex-s"><span class="ex-n">4.</span>Nosotros <input class="blk" id="e4" data-answer="somos"> compa&ntilde;eros de clase.</div>
+      <div class="ex-s"><span class="ex-n">5.</span>Los estudiantes <input class="blk" id="e5" data-answer="son"> muy trabajadores.</div>
+      <div class="ex-s"><span class="ex-n">6.</span>&iquest;<input class="blk" id="e6" data-answer="son"> ustedes de habla hispana?</div>
+      <div class="ex-s"><span class="ex-n">7.</span>&Eacute;l <input class="blk" id="e7" data-answer="es"> de origen cubano.</div>
+      <div class="ex-s"><span class="ex-n">8.</span>Yo <input class="blk" id="e8" data-answer="soy"> de San Francisco, California.</div>
+      <button class="chk-btn" onclick="checkBlanks('e1,e2,e3,e4,e5,e6,e7,e8','sc3')">Check Answers</button>
+      <button class="rst-btn" onclick="resetBlanks('e1,e2,e3,e4,e5,e6,e7,e8','sc3')">Reset</button>
+      <div class="res-msg" id="sc3"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Ejercicio 4 &mdash; LLAMARSE: Di&aacute;logos</div>
+      <p style="font-size:13px;color:#666;margin-bottom:1rem;">Fill in with the correct form of llamarse.</p>
+      <div class="ex-s"><span class="ex-n">1.</span>&iquest;C&oacute;mo <input class="blk" id="l1" data-answer="te llamas" style="width:115px;">? &mdash; Yo me llamo Valentina.</div>
+      <div class="ex-s"><span class="ex-n">2.</span>&iquest;Y c&oacute;mo <input class="blk" id="l2" data-answer="se llama" style="width:110px;"> tu compa&ntilde;era? &mdash; Ella se llama Isabel.</div>
+      <div class="ex-s"><span class="ex-n">3.</span>Nosotros <input class="blk" id="l3" data-answer="nos llamamos" style="width:145px;"> Marcos y Luc&iacute;a.</div>
+      <div class="ex-s"><span class="ex-n">4.</span>Los nuevos estudiantes <input class="blk" id="l4" data-answer="se llaman" style="width:110px;"> Pedro, Sof&iacute;a y Daniel.</div>
+      <div class="ex-s"><span class="ex-n">5.</span>&iquest;C&oacute;mo <input class="blk" id="l5" data-answer="se llama" style="width:110px;"> usted? &mdash; Yo me llamo el doctor Ram&iacute;rez.</div>
+      <button class="chk-btn" onclick="checkBlanks('l1,l2,l3,l4,l5','sc4')">Check Answers</button>
+      <button class="rst-btn" onclick="resetBlanks('l1,l2,l3,l4,l5','sc4')">Reset</button>
+      <div class="res-msg" id="sc4"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Ejercicio 5 &mdash; El alfabeto: Spelling Practice</div>
+      <p style="font-size:13px;color:#666;margin-bottom:4px;">Type the Spanish letter names separated by dashes. / Escribe los nombres de las letras separados por guiones.</p>
+      <p style="font-size:12px;color:#aaa;margin-bottom:1rem;">Example: <em>hola</em> &rarr; hache &ndash; o &ndash; ele &ndash; a</p>
+      <div id="spell-cont"></div>
+      <button class="chk-btn" onclick="checkSpelling()">Check Spelling</button>
+      <button class="rst-btn" onclick="resetSpelling()">Reset</button>
+      <div class="res-msg" id="sc5"></div>
+    </div>
+  </div>
+
+  <!-- ACTIVIDAD -->
+  <div class="sec" id="sec-ac">
+    <h2 class="sec-title">Actividad Oral &mdash; &iexcl;Con&oacute;cete!</h2>
+    <p class="sec-sub">Class Introduction Circle &mdash; Wednesday in-class activity</p>
+    <div class="card">
+      <div class="card-title">Instrucciones / Instructions</div>
+      <div class="act-step">
+        <div class="snum">1</div>
+        <div><p style="font-size:14px;font-weight:600;margin-bottom:4px;">Introduce yourself</p><p style="font-size:13px;color:#555;font-style:italic;">&ldquo;Hola, me llamo [name]. Soy de [city]. Estudio [subject] en SPSCC.&rdquo;</p></div>
+      </div>
+      <div class="act-step">
+        <div class="snum">2</div>
+        <div><p style="font-size:14px;font-weight:600;margin-bottom:4px;">Introduce your neighbor</p><p style="font-size:13px;color:#555;font-style:italic;">&ldquo;&Eacute;l/Ella se llama [name]. Es de [place]. Estudia [major].&rdquo;</p></div>
+      </div>
+      <div class="act-step">
+        <div class="snum">3</div>
+        <div><p style="font-size:14px;font-weight:600;margin-bottom:4px;">Challenge Round</p><p style="font-size:13px;color:#555;">Introduce someone from memory &mdash; no notes allowed. Partner checks accuracy.</p></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Questions to Ask / Preguntas para hacer</div>
+      <div class="snd-grid" style="margin-top:0.5rem;">
+        <div style="padding:11px 14px;background:#f5f4f0;border-radius:10px;"><p style="font-style:italic;font-weight:600;font-size:14px;color:#0F6E56;">&iquest;C&oacute;mo te llamas?</p><p style="font-size:12px;color:#666;margin-top:3px;">What is your name?</p></div>
+        <div style="padding:11px 14px;background:#f5f4f0;border-radius:10px;"><p style="font-style:italic;font-weight:600;font-size:14px;color:#0F6E56;">&iquest;De d&oacute;nde eres?</p><p style="font-size:12px;color:#666;margin-top:3px;">Where are you from?</p></div>
+        <div style="padding:11px 14px;background:#f5f4f0;border-radius:10px;"><p style="font-style:italic;font-weight:600;font-size:13px;color:#0F6E56;">&iquest;Qu&eacute; estudias o trabajas?</p><p style="font-size:12px;color:#666;margin-top:3px;">What do you study or do for work?</p></div>
+      </div>
+    </div>
+    <div class="card cult-card">
+      <div class="card-title" style="color:#085041;">Wednesday Schedule / Horario</div>
+      <table style="width:100%;font-size:13px;border-collapse:collapse;">
+        <tr><td style="padding:7px 0;color:#0F6E56;font-weight:600;border-bottom:1px solid #9FE1CB;width:80px;">0:00&ndash;0:10</td><td style="padding:7px 0;border-bottom:1px solid #9FE1CB;color:#085041;">Vocabulario Quiz 1 &mdash; classroom phrases + alphabet (10 items)</td></tr>
+        <tr><td style="padding:7px 0;color:#0F6E56;font-weight:600;border-bottom:1px solid #9FE1CB;">0:10&ndash;0:35</td><td style="padding:7px 0;border-bottom:1px solid #9FE1CB;color:#085041;">&iexcl;Con&oacute;cete! Introduction Circle in groups of 4&ndash;5</td></tr>
+        <tr><td style="padding:7px 0;color:#0F6E56;font-weight:600;border-bottom:1px solid #9FE1CB;">0:35&ndash;0:45</td><td style="padding:7px 0;border-bottom:1px solid #9FE1CB;color:#085041;">Challenge Round &mdash; introduce neighbor from memory</td></tr>
+        <tr><td style="padding:7px 0;color:#0F6E56;font-weight:600;">0:45&ndash;0:50</td><td style="padding:7px 0;color:#085041;">Wrap-Up &mdash; one volunteer introduces entire group to class</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+var vocabData = [
+  {es:'&iquest;C&oacute;mo se dice...?', en:'How do you say...?'},
+  {es:'&iquest;C&oacute;mo se escribe...?', en:'How do you spell...?'},
+  {es:'&iquest;Puede(s) repetir, por favor?', en:'Can you repeat, please?'},
+  {es:'No entiendo.', en:"I don't understand."},
+  {es:'M&aacute;s despacio, por favor.', en:'More slowly, please.'},
+  {es:'&iquest;Qu&eacute; significa...?', en:'What does ... mean?'},
+  {es:'Tengo una pregunta.', en:'I have a question.'},
+  {es:'&iquest;En qu&eacute; p&aacute;gina estamos?', en:'What page are we on?'},
+  {es:'Por favor / Gracias / De nada', en:"Please / Thank you / You're welcome"},
+  {es:'Perd&oacute;n / Disculpe', en:"Excuse me / I'm sorry"},
+  {es:'&iexcl;Muy bien! / &iexcl;Excelente!', en:'Very good! / Excellent!'},
+  {es:'Repite, por favor.', en:'Repeat, please.'}
+];
+
+var g = document.getElementById('fc-grid');
+vocabData.forEach(function(v) {
+  var d = document.createElement('div');
+  d.className = 'fc';
+  d.innerHTML = '<div class="fc-fr">' + v.es + '</div><div class="fc-bk">' + v.en + '</div><div class="fc-ht">Click to reveal</div>';
+  d.onclick = function() { this.classList.toggle('flipped'); };
+  g.appendChild(d);
+});
+
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.sec').forEach(function(s) { s.classList.remove('active'); });
+  el.classList.add('active');
+  document.getElementById('sec-' + tab).classList.add('active');
+}
+
+var matchData = [
+  {es:"&iquest;C&oacute;mo se dice 'homework'?", en:"How do you say 'homework'?", id:'d'},
+  {es:'No entiendo la pregunta.', en:"I don't understand the question.", id:'b'},
+  {es:'&iquest;Puede repetir, por favor?', en:'Can you repeat, please?', id:'e'},
+  {es:"&iquest;Qu&eacute; significa 'madrugada'?", en:"What does 'madrugada' mean?", id:'f'},
+  {es:'M&aacute;s despacio, por favor.', en:'More slowly, please.', id:'c'},
+  {es:'Tengo una pregunta.', en:'I have a question.', id:'j'},
+  {es:'&iquest;En qu&eacute; p&aacute;gina estamos?', en:'What page are we on?', id:'h'},
+  {es:'De nada.', en:"You're welcome.", id:'a'},
+  {es:'Perd&oacute;n, llego tarde.', en:"Excuse me, I'm late.", id:'i'},
+  {es:'&iexcl;Muy bien!', en:'Very good!', id:'g'}
+];
+
+var selEs = null, selEn = null, matched = 0;
+
+function buildMatch() {
+  var c = document.getElementById('match-cont');
+  var sh = matchData.slice().sort(function() { return Math.random() - 0.5; });
+  var esHtml = matchData.map(function(m, i) {
+    return '<div class="mi" id="mes-' + i + '" data-id="' + m.id + '" onclick="selSpanish(this)">' + (i+1) + '. ' + m.es + '</div>';
+  }).join('');
+  var enHtml = sh.map(function(m) {
+    return '<div class="mi" id="men-' + m.id + '" data-id="' + m.id + '" onclick="selEnglish(this)">' + m.en + '</div>';
+  }).join('');
+  c.innerHTML = '<div class="match-cols"><div id="col-es">' + esHtml + '</div><div id="col-en">' + enHtml + '</div></div>';
+  selEs = null; selEn = null; matched = 0;
+  document.getElementById('match-score').textContent = '';
+}
+
+function selSpanish(el) {
+  if (el.classList.contains('done')) return;
+  document.querySelectorAll('#col-es .mi').forEach(function(i) { i.classList.remove('sel'); });
+  el.classList.add('sel'); selEs = el; tryMatch();
+}
+function selEnglish(el) {
+  if (el.classList.contains('done')) return;
+  document.querySelectorAll('#col-en .mi').forEach(function(i) { i.classList.remove('sel','bad'); });
+  el.classList.add('sel'); selEn = el; tryMatch();
+}
+function tryMatch() {
+  if (!selEs || !selEn) return;
+  if (selEs.dataset.id === selEn.dataset.id) {
+    selEs.classList.remove('sel'); selEs.classList.add('done');
+    selEn.classList.remove('sel'); selEn.classList.add('done');
+    matched++;
+    if (matched === matchData.length) {
+      document.getElementById('match-score').textContent = 'Excelente! All ' + matched + ' matched correctly!';
+      markDone('ex1');
+    }
+  } else {
+    var bad = selEn;
+    setTimeout(function() { bad.classList.remove('bad','sel'); }, 700);
+    selEn.classList.add('bad');
+  }
+  selEs = null; selEn = null;
+}
+function resetMatch() { selEs = null; selEn = null; buildMatch(); }
+buildMatch();
+
+function checkBlanks(ids, scoreId) {
+  var idList = ids.split(','), score = 0;
+  idList.forEach(function(id) {
+    var el = document.getElementById(id);
+    var ua = el.value.trim().toLowerCase();
+    var ca = el.dataset.answer.toLowerCase();
+    if (ua === ca) { el.classList.remove('ng'); el.classList.add('ok'); score++; }
+    else { el.classList.remove('ok'); el.classList.add('ng'); }
+  });
+  var total = idList.length;
+  var msg = score + ' / ' + total + ' correct';
+  if (score === total) { msg += ' — Perfecto!'; markDone(scoreId); }
+  document.getElementById(scoreId).textContent = msg;
+}
+function resetBlanks(ids, scoreId) {
+  ids.split(',').forEach(function(id) {
+    var el = document.getElementById(id); el.value = ''; el.classList.remove('ok','ng');
+  });
+  if (scoreId) document.getElementById(scoreId).textContent = '';
+}
+
+var spellData = [
+  {word:'clase', answer:'ce \u2013 ele \u2013 a \u2013 ese \u2013 e'},
+  {word:'hablar', answer:'hache \u2013 a \u2013 be \u2013 ele \u2013 a \u2013 erre'},
+  {word:'espa\u00f1ol', answer:'e \u2013 ese \u2013 pe \u2013 a \u2013 e\u00f1e \u2013 o \u2013 ele'},
+  {word:'universidad', answer:'u \u2013 ene \u2013 i \u2013 ve \u2013 e \u2013 erre \u2013 ese \u2013 i \u2013 de \u2013 a \u2013 de'},
+  {word:'mujer', answer:'eme \u2013 u \u2013 jota \u2013 e \u2013 erre'}
+];
+
+function buildSpelling() {
+  var el = document.getElementById('spell-cont');
+  el.innerHTML = spellData.map(function(w, i) {
+    return '<div style="margin-bottom:1rem;"><div style="font-size:14px;"><span style="color:#aaa;">' + (i+1) + '.</span> <em style="font-weight:600;">' + w.word + '</em></div><input class="sp-inp" id="sp' + i + '" placeholder="e.g. ce \u2013 ele \u2013 a \u2013 ese \u2013 e" data-answer="' + w.answer + '"></div>';
+  }).join('');
+}
+function checkSpelling() {
+  var score = 0;
+  spellData.forEach(function(w, i) {
+    var el = document.getElementById('sp' + i);
+    var ua = el.value.trim().toLowerCase().replace(/\s*[-\u2013]\s*/g, ' \u2013 ').replace(/\s+/g,' ');
+    var ca = w.answer.toLowerCase();
+    if (ua === ca) { el.classList.add('ok'); el.classList.remove('ng'); score++; }
+    else { el.classList.add('ng'); el.classList.remove('ok'); }
+  });
+  var msg = score + ' / ' + spellData.length + ' correct';
+  if (score === spellData.length) { msg += ' — Excelente!'; markDone('sc5'); }
+  document.getElementById('sc5').textContent = msg;
+}
+function resetSpelling() {
+  spellData.forEach(function(w, i) {
+    var el = document.getElementById('sp' + i); el.value = ''; el.classList.remove('ok','ng');
+  });
+  document.getElementById('sc5').textContent = '';
+}
+buildSpelling();
+
+var done = {};
+function markDone(id) {
+  done[id] = true;
+  var count = Object.keys(done).length;
+  document.getElementById('pf').style.width = Math.round(count / 5 * 100) + '%';
+}
+</script>
+</body>
+</html>
