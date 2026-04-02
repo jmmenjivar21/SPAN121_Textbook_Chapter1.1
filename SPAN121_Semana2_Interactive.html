@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPAN 121 — Semana 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --dark: #1A1A2E;
+    --navy: #16213E;
+    --teal: #0F7173;
+    --gold: #C8963E;
+    --rust: #C1440E;
+    --sage: #5C7A5E;
+    --sand: #E8DCC8;
+    --light-teal: #E8F4F4;
+    --light-gold: #FDF6E8;
+    --correct: #2D7A4F;
+    --wrong: #B83232;
+    --correct-bg: #EAF6EE;
+    --wrong-bg: #FDEAEA;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--navy);
+    color: white;
+    padding: 60px 40px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,150,62,0.3), transparent 70%);
+  }
+  .hero::after {
+    content: 'SEMANA 2';
+    position: absolute;
+    bottom: -20px; right: 30px;
+    font-family: 'Playfair Display', serif;
+    font-size: 120px;
+    color: rgba(255,255,255,0.04);
+    letter-spacing: -4px;
+    user-select: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .hero h1 em { color: var(--gold); font-style: italic; }
+  .hero p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    max-width: 500px;
+    line-height: 1.6;
+  }
+
+  /* NAV TABS */
+  .tab-nav {
+    background: var(--dark);
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--teal);
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.45);
+    padding: 16px 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .tab-btn:hover { color: rgba(255,255,255,0.8); }
+  .tab-btn.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  /* SECTIONS */
+  .section { display: none; padding: 40px clamp(20px, 5vw, 60px) 80px; max-width: 900px; margin: 0 auto; }
+  .section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .section-title span { color: var(--teal); }
+  .section-sub {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 30px;
+    border-left: 3px solid var(--gold);
+    padding-left: 12px;
+  }
+
+  /* WEEK OVERVIEW TABLE */
+  .week-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+  .week-table th {
+    background: var(--navy);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .week-table td { padding: 14px 16px; vertical-align: top; border-bottom: 1px solid #e0d8cc; }
+  .week-table tr:last-child td { border-bottom: none; }
+  .week-table tr:nth-child(even) td { background: rgba(245,240,232,0.5); }
+  .day-pill {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .pill-weekend { background: #E8F0FD; color: #3B5998; }
+  .pill-inclass { background: #E8F6EE; color: #2D7A4F; }
+  .pill-practice { background: #FDF6E8; color: #C8963E; }
+  .focus-text { font-weight: 600; color: var(--navy); }
+  .hw-text { font-style: italic; font-size: 13px; color: var(--rust); }
+
+  /* SCHEDULE TIMELINE */
+  .timeline { margin-top: 24px; }
+  .timeline-header {
+    background: var(--teal);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px 8px 0 0;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+  .timeline-item {
+    display: flex;
+    gap: 20px;
+    padding: 16px 20px;
+    border-left: 3px solid var(--teal);
+    border-right: 1px solid #e0d8cc;
+    border-bottom: 1px solid #e0d8cc;
+    background: white;
+    transition: background 0.2s;
+  }
+  .timeline-item:last-child { border-radius: 0 0 8px 8px; }
+  .timeline-item:hover { background: var(--light-teal); }
+  .t-time { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--teal); font-weight: 500; min-width: 80px; padding-top: 2px; }
+  .t-content { font-size: 14px; line-height: 1.6; color: #333; }
+
+  /* VOCAB GRID */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .vocab-card {
+    background: white;
+    border: 1px solid #e0d8cc;
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .vocab-card:hover { border-color: var(--teal); box-shadow: 0 3px 12px rgba(15,113,115,0.12); transform: translateY(-2px); }
+  .vocab-es { font-weight: 600; font-size: 15px; font-style: italic; color: var(--navy); }
+  .vocab-en { font-size: 13px; color: #888; }
+
+  /* FLASHCARD MODE */
+  .flashcard-controls { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+  .btn {
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--teal); color: white; }
+  .btn-primary:hover { background: #0a5f61; }
+  .btn-secondary { background: white; color: var(--dark); border: 1.5px solid #d0c8b8; }
+  .btn-secondary:hover { border-color: var(--teal); color: var(--teal); }
+  .btn-gold { background: var(--gold); color: white; }
+  .btn-gold:hover { background: #b07c2a; }
+  .btn-sm { padding: 7px 16px; font-size: 13px; }
+
+  .flashcard-area { perspective: 1000px; }
+  .flashcard {
+    width: 100%;
+    max-width: 420px;
+    height: 200px;
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    margin: 0 auto 20px;
+  }
+  .flashcard.flipped { transform: rotateY(180deg); }
+  .card-face {
+    position: absolute; inset: 0;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    padding: 30px;
+  }
+  .card-front { background: var(--navy); color: white; }
+  .card-back { background: var(--teal); color: white; transform: rotateY(180deg); }
+  .card-word { font-family: 'Playfair Display', serif; font-size: 2rem; font-style: italic; }
+  .card-hint { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 8px; }
+  .card-translation { font-size: 1.4rem; font-weight: 500; }
+  .fc-nav { display: flex; align-items: center; gap: 16px; justify-content: center; }
+  .fc-counter { font-size: 14px; color: #888; }
+
+  /* GRAMMAR TABLES */
+  .grammar-box {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e0d8cc;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .grammar-box-header {
+    background: var(--navy);
+    color: white;
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .verb-badge {
+    background: var(--gold);
+    color: white;
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+  }
+  .conj-table { width: 100%; border-collapse: collapse; }
+  .conj-table td, .conj-table th { padding: 12px 20px; border-bottom: 1px solid #f0ebe0; font-size: 14px; }
+  .conj-table tr:last-child td { border-bottom: none; }
+  .conj-table .pronoun { color: #888; font-size: 13px; }
+  .conj-table .form { font-weight: 600; color: var(--navy); font-family: 'DM Mono', monospace; }
+  .conj-table .ending { color: var(--teal); }
+  .conj-tables-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .tip-box {
+    background: var(--light-gold);
+    border-left: 4px solid var(--gold);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+  .ojo-box {
+    background: #FFF8E8;
+    border: 1.5px solid var(--gold);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .ojo-box strong { color: var(--gold); }
+
+  /* EXERCISES */
+  .exercise-box {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e0d8cc;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .exercise-header {
+    background: linear-gradient(135deg, var(--teal) 0%, #0a5f61 100%);
+    color: white;
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+  .exercise-header strong { font-size: 16px; display: block; margin-bottom: 2px; }
+  .exercise-body { padding: 20px; }
+  .word-bank {
+    background: var(--light-gold);
+    border: 1px dashed var(--gold);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  .word-bank strong { color: var(--gold); display: block; margin-bottom: 6px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+  .wb-words { display: flex; flex-wrap: wrap; gap: 8px; }
+  .wb-word {
+    background: white;
+    border: 1px solid #d0c8b8;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .ex-item { display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+  .ex-num { font-weight: 700; color: var(--teal); min-width: 22px; font-size: 15px; }
+  .ex-text { font-size: 14px; line-height: 1.6; flex: 1; min-width: 200px; }
+  .fill-blank {
+    display: inline-block;
+    border: none;
+    border-bottom: 2px solid var(--teal);
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--navy);
+    padding: 2px 8px;
+    width: 160px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .fill-blank:focus { border-bottom-color: var(--gold); }
+  .fill-blank.correct { color: var(--correct); border-bottom-color: var(--correct); background: var(--correct-bg); border-radius: 4px 4px 0 0; }
+  .fill-blank.wrong { color: var(--wrong); border-bottom-color: var(--wrong); background: var(--wrong-bg); border-radius: 4px 4px 0 0; }
+  .feedback { font-size: 12px; margin-top: 2px; display: none; }
+  .feedback.show { display: block; }
+  .feedback.correct { color: var(--correct); }
+  .feedback.wrong { color: var(--wrong); }
+
+  /* ARTICLES EXERCISE */
+  .art-item { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+  .art-noun { font-style: italic; font-weight: 700; font-size: 15px; color: var(--navy); min-width: 120px; }
+  .art-group { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .art-label { font-size: 12px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .art-input {
+    border: none;
+    border-bottom: 2px solid var(--teal);
+    background: transparent;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    padding: 2px 8px;
+    width: 80px;
+    outline: none;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .art-input:focus { border-bottom-color: var(--gold); }
+  .art-input.correct { color: var(--correct); border-bottom-color: var(--correct); background: var(--correct-bg); border-radius: 4px 4px 0 0; }
+  .art-input.wrong { color: var(--wrong); border-bottom-color: var(--wrong); background: var(--wrong-bg); border-radius: 4px 4px 0 0; }
+
+  /* CONJ EXERCISE */
+  .conj-ex-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .conj-ex-table td { padding: 10px 16px; border-bottom: 1px solid #f0ebe0; }
+  .conj-ex-table tr:last-child td { border-bottom: none; }
+  .conj-ex-table .pron { color: #888; }
+  .conj-ex-table input {
+    border: none;
+    border-bottom: 2px solid var(--teal);
+    background: transparent;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    padding: 2px 8px;
+    width: 140px;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .conj-ex-table input:focus { border-bottom-color: var(--gold); }
+  .conj-ex-table input.correct { color: var(--correct); border-bottom-color: var(--correct); background: var(--correct-bg); border-radius: 4px 4px 0 0; }
+  .conj-ex-table input.wrong { color: var(--wrong); border-bottom-color: var(--wrong); background: var(--wrong-bg); border-radius: 4px 4px 0 0; }
+
+  /* SCORE */
+  .score-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+    padding: 14px 18px;
+    background: var(--light-teal);
+    border-radius: 10px;
+    font-size: 14px;
+  }
+  .score-num { font-size: 24px; font-weight: 700; color: var(--teal); font-family: 'DM Mono', monospace; }
+  .check-btn-row { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+
+  /* VIDEO LOG */
+  .vlog-guide { margin-bottom: 24px; }
+  .vlog-step {
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid #e0d8cc;
+    align-items: flex-start;
+  }
+  .vlog-step:last-child { border-bottom: none; }
+  .step-num {
+    background: var(--navy);
+    color: white;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-content { flex: 1; }
+  .step-label { font-size: 12px; color: var(--teal); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+  .step-prompt { font-size: 14px; color: #444; line-height: 1.5; }
+  .step-template { font-style: italic; color: var(--navy); font-weight: 500; }
+  .script-textarea {
+    width: 100%;
+    min-height: 240px;
+    border: 2px solid #d0c8b8;
+    border-radius: 10px;
+    padding: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+    background: white;
+    color: var(--dark);
+  }
+  .script-textarea:focus { border-color: var(--teal); }
+  .checklist { margin-top: 16px; }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0ebe0;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-item input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--teal); cursor: pointer; }
+  .check-item.done { color: var(--sage); text-decoration: line-through; }
+  .checklist-title { font-weight: 600; color: var(--navy); margin-bottom: 8px; font-size: 14px; }
+
+  /* RESOURCES */
+  .resource-day { margin-bottom: 28px; }
+  .resource-day-title {
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--teal);
+    border-bottom: 2px solid var(--teal);
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+  }
+  .resource-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    padding: 14px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e0d8cc;
+    transition: all 0.2s;
+  }
+  .resource-item:hover { border-color: var(--teal); transform: translateX(4px); }
+  .resource-icon { font-size: 18px; flex-shrink: 0; }
+  .resource-label { font-weight: 600; font-size: 13px; color: var(--navy); margin-bottom: 2px; }
+  .resource-desc { font-size: 13px; color: #666; }
+  .resource-link { color: var(--teal); text-decoration: none; font-size: 12px; }
+  .resource-link:hover { text-decoration: underline; }
+
+  /* PROGRESS */
+  .progress-strip {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--dark);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 200;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+  .progress-bar-outer { flex: 1; height: 4px; background: rgba(255,255,255,0.15); border-radius: 4px; max-width: 300px; }
+  .progress-bar-inner { height: 100%; background: var(--gold); border-radius: 4px; transition: width 0.4s; }
+  .progress-label { color: var(--gold); font-weight: 600; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .hero { padding: 40px 24px 36px; }
+    .hero::after { font-size: 70px; }
+    .tab-btn { padding: 14px 16px; font-size: 12px; }
+    .conj-tables-row { grid-template-columns: 1fr; }
+    .art-item { flex-direction: column; align-items: flex-start; }
+    .ex-item { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">SPAN 121 · Chapter 2</div>
+  <h1>Semana 2<br><em>Regular Verbs & Articles</em></h1>
+  <p>Interactive chapter — grammar, vocabulary, exercises, and your video log script all in one place.</p>
+</div>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('overview')">📅 Overview</button>
+  <button class="tab-btn" onclick="showTab('vocab')">📚 Vocabulario 2</button>
+  <button class="tab-btn" onclick="showTab('grammar')">📐 Gramática</button>
+  <button class="tab-btn" onclick="showTab('exercises')">✏️ Ejercicios</button>
+  <button class="tab-btn" onclick="showTab('videolog')">🎥 Video Log</button>
+  <button class="tab-btn" onclick="showTab('resources')">🔗 Resources</button>
+</nav>
+
+<!-- OVERVIEW -->
+<div id="tab-overview" class="section active">
+  <h2 class="section-title"><span>Week</span> at a Glance</h2>
+  <p class="section-sub">Regular -AR/-ER/-IR Verbs · Articles & Nouns · Writing Project</p>
+
+  <table class="week-table">
+    <thead>
+      <tr><th>Day</th><th>Type</th><th>Focus</th><th>Activities</th><th>Homework</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Weekend</strong></td>
+        <td><span class="day-pill pill-weekend">Self-Guided</span></td>
+        <td class="focus-text">Vocab 2 + Grammar 2</td>
+        <td>Study Vocabulario 2; read Grammar 2; complete Ejercicio 6</td>
+        <td class="hw-text">Ejercicio 6; memorize -ar endings</td>
+      </tr>
+      <tr>
+        <td><strong>Monday</strong></td>
+        <td><span class="day-pill pill-inclass">In-Class</span></td>
+        <td class="focus-text">Regular Verbs in Action</td>
+        <td>Grammar instruction; conjugation drill (Ej. 7A–C); chain conjugation game</td>
+        <td class="hw-text">Ejercicio 8; study -er/-ir endings</td>
+      </tr>
+      <tr>
+        <td><strong>Tuesday</strong></td>
+        <td><span class="day-pill pill-practice">Practice</span></td>
+        <td class="focus-text">Articles & Nouns</td>
+        <td>Grammar 3 instruction; Ejercicio 9; noun gender color-coding</td>
+        <td class="hw-text">Find 10 nouns with definite + indefinite articles</td>
+      </tr>
+      <tr>
+        <td><strong>Wednesday</strong></td>
+        <td><span class="day-pill pill-inclass">In-Class</span></td>
+        <td class="focus-text">Video Log Workshop + Quiz</td>
+        <td>Vocabulario Quiz 2; peer review; linguistic landscape intro</td>
+        <td class="hw-text">Video Log 1 due Sunday; Semana 2 Quiz; SpanishDict HW; Linguistic Landscape</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="timeline" style="margin-top:36px;">
+    <div class="timeline-header">🗓️ Monday In-Class · Lunes En clase</div>
+    <div class="timeline-item"><span class="t-time">0:00–0:05</span><span class="t-content"><strong>Warm-Up:</strong> Quick oral review — ser conjugation. Instructor points to pronoun, students call out form.</span></div>
+    <div class="timeline-item"><span class="t-time">0:05–0:20</span><span class="t-content"><strong>Grammar Instruction:</strong> -ar/-er/-ir endings chart on board. Pattern contrast: hablar / comer / vivir side by side.</span></div>
+    <div class="timeline-item"><span class="t-time">0:20–0:30</span><span class="t-content"><strong>Chain Conjugation Game:</strong> Instructor says verb + pronoun, student conjugates and passes to next. Two chains compete.</span></div>
+    <div class="timeline-item"><span class="t-time">0:30–0:45</span><span class="t-content"><strong>Pair Dialogue:</strong> Use 5 regular verbs to describe study habits. Model: <em>"Estudio por las noches. Escucho música mientras estudio. ¿Y tú?"</em></span></div>
+    <div class="timeline-item"><span class="t-time">0:45–0:50</span><span class="t-content"><strong>Report Back:</strong> Each pair shares one interesting habit learned about their partner.</span></div>
+  </div>
+
+  <div class="timeline" style="margin-top:20px;">
+    <div class="timeline-header">🗓️ Wednesday In-Class · Miércoles En clase</div>
+    <div class="timeline-item"><span class="t-time">0:00–0:10</span><span class="t-content"><strong>Vocabulario Quiz 2:</strong> Learning activities + regular verbs (fill-in, 10 items).</span></div>
+    <div class="timeline-item"><span class="t-time">0:10–0:35</span><span class="t-content"><strong>Video Log Peer Review:</strong> Watch partner's draft. Checklist: ✓ ~1 min ✓ 3 verbs ✓ correct articles ✓ ser + llamarse. Write 2 compliments and 1 suggestion.</span></div>
+    <div class="timeline-item"><span class="t-time">0:35–0:48</span><span class="t-content"><strong>Linguistic Landscape Sharing:</strong> Show your 5 Spanish photos. <em>"Este es un letrero en ___. Esta es una etiqueta en ___."</em></span></div>
+    <div class="timeline-item"><span class="t-time">0:48–0:50</span><span class="t-content"><strong>Class Discussion:</strong> Where did Spanish appear most in your community? What surprised you?</span></div>
+  </div>
+</div>
+
+<!-- VOCAB -->
+<div id="tab-vocab" class="section">
+  <h2 class="section-title"><span>Vocabulario</span> 2</h2>
+  <p class="section-sub">Actividades para aprender español · Learning Activities</p>
+
+  <div class="flashcard-controls">
+    <button class="btn btn-primary" onclick="startFlashcards()">🃏 Flashcard Mode</button>
+    <button class="btn btn-secondary" onclick="showGrid()">📋 List View</button>
+  </div>
+
+  <div id="flashcard-area" style="display:none">
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="card-face card-front">
+        <div class="card-word" id="card-es"></div>
+        <div class="card-hint">click to reveal</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="card-translation" id="card-en"></div>
+      </div>
+    </div>
+    <div class="fc-nav">
+      <button class="btn btn-secondary btn-sm" onclick="prevCard()">← Prev</button>
+      <span class="fc-counter" id="fc-counter">1 / 13</span>
+      <button class="btn btn-primary btn-sm" onclick="nextCard()">Next →</button>
+    </div>
+    <div style="text-align:center;margin-top:12px;">
+      <button class="btn btn-secondary btn-sm" onclick="showGrid()">Back to List</button>
+    </div>
+  </div>
+
+  <div id="vocab-grid-area" class="vocab-grid">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- GRAMMAR -->
+<div id="tab-grammar" class="section">
+  <h2 class="section-title"><span>Gramática</span> 2 & 3</h2>
+  <p class="section-sub">Regular Present-Tense Verbs · Definite & Indefinite Articles</p>
+
+  <div class="grammar-box">
+    <div class="grammar-box-header">
+      📐 GRAMÁTICA 2 — Regular -AR, -ER, -IR Verbs
+    </div>
+    <div style="padding:20px;">
+      <p style="font-size:14px;color:#555;margin-bottom:18px;">Remove the infinitive ending (-ar / -er / -ir), then add the corresponding personal ending.</p>
+      <div class="conj-tables-row">
+        <div>
+          <div style="text-align:center;background:var(--navy);color:white;padding:8px;border-radius:8px 8px 0 0;font-weight:600;font-size:14px;">hablar <span style="opacity:0.5;font-weight:400">(-ar)</span></div>
+          <table class="conj-table">
+            <tr><td class="pronoun">yo</td><td>habl<span class="ending form">o</span></td></tr>
+            <tr><td class="pronoun">tú</td><td>habl<span class="ending form">as</span></td></tr>
+            <tr><td class="pronoun">él/ella</td><td>habl<span class="ending form">a</span></td></tr>
+            <tr><td class="pronoun">nosotros</td><td>habl<span class="ending form">amos</span></td></tr>
+            <tr><td class="pronoun">ellos/Uds.</td><td>habl<span class="ending form">an</span></td></tr>
+          </table>
+        </div>
+        <div>
+          <div style="text-align:center;background:var(--teal);color:white;padding:8px;border-radius:8px 8px 0 0;font-weight:600;font-size:14px;">comer <span style="opacity:0.5;font-weight:400">(-er)</span></div>
+          <table class="conj-table">
+            <tr><td class="pronoun">yo</td><td>com<span class="ending form">o</span></td></tr>
+            <tr><td class="pronoun">tú</td><td>com<span class="ending form">es</span></td></tr>
+            <tr><td class="pronoun">él/ella</td><td>com<span class="ending form">e</span></td></tr>
+            <tr><td class="pronoun">nosotros</td><td>com<span class="ending form">emos</span></td></tr>
+            <tr><td class="pronoun">ellos/Uds.</td><td>com<span class="ending form">en</span></td></tr>
+          </table>
+        </div>
+        <div>
+          <div style="text-align:center;background:var(--sage);color:white;padding:8px;border-radius:8px 8px 0 0;font-weight:600;font-size:14px;">vivir <span style="opacity:0.5;font-weight:400">(-ir)</span></div>
+          <table class="conj-table">
+            <tr><td class="pronoun">yo</td><td>viv<span class="ending form">o</span></td></tr>
+            <tr><td class="pronoun">tú</td><td>viv<span class="ending form">es</span></td></tr>
+            <tr><td class="pronoun">él/ella</td><td>viv<span class="ending form">e</span></td></tr>
+            <tr><td class="pronoun">nosotros</td><td>viv<span class="ending form">imos</span></td></tr>
+            <tr><td class="pronoun">ellos/Uds.</td><td>viv<span class="ending form">en</span></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="tip-box">
+        <strong>💡 Pattern Tip:</strong> -ar and -er/-ir share the same yo ending (-<strong>o</strong>) and the same ellos/Uds. ending (-<strong>an</strong> vs -<strong>en</strong>). The nosotros form preserves the infinitive vowel: habl<strong>a</strong>mos / com<strong>e</strong>mos / viv<strong>i</strong>mos.
+      </div>
+      <div style="margin-top:16px;font-size:13px;color:#555;">
+        <strong>More verbs —</strong> -ar: caminar, practicar, escuchar, estudiar &nbsp;|&nbsp; -er: beber, leer, comprender &nbsp;|&nbsp; -ir: escribir, recibir, abrir
+      </div>
+    </div>
+  </div>
+
+  <div class="grammar-box">
+    <div class="grammar-box-header">
+      📐 GRAMÁTICA 3 — Artículos y Sustantivos
+    </div>
+    <div style="padding:20px;">
+      <p style="font-size:14px;color:#555;margin-bottom:18px;">All Spanish nouns have grammatical gender: masculine or feminine. Articles must agree in gender and number with the noun.</p>
+      <table class="conj-table" style="border:1px solid #e0d8cc;border-radius:8px;overflow:hidden;">
+        <thead>
+          <tr style="background:#f5f0e8;">
+            <th style="padding:10px 16px;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#888;text-align:left;font-weight:600;border-bottom:1px solid #e0d8cc;"> </th>
+            <th style="padding:10px 16px;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#888;text-align:left;font-weight:600;border-bottom:1px solid #e0d8cc;">Definite (the)</th>
+            <th style="padding:10px 16px;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#888;text-align:left;font-weight:600;border-bottom:1px solid #e0d8cc;">Indefinite (a / some)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:12px 16px;color:#888;font-size:13px;border-bottom:1px solid #f0ebe0;">Singular M</td><td style="padding:12px 16px;border-bottom:1px solid #f0ebe0;"><strong>el</strong> libro</td><td style="padding:12px 16px;border-bottom:1px solid #f0ebe0;"><strong>un</strong> libro</td></tr>
+          <tr><td style="padding:12px 16px;color:#888;font-size:13px;border-bottom:1px solid #f0ebe0;">Singular F</td><td style="padding:12px 16px;border-bottom:1px solid #f0ebe0;"><strong>la</strong> clase</td><td style="padding:12px 16px;border-bottom:1px solid #f0ebe0;"><strong>una</strong> clase</td></tr>
+          <tr><td style="padding:12px 16px;color:#888;font-size:13px;border-bottom:1px solid #f0ebe0;">Plural M</td><td style="padding:12px 16px;border-bottom:1px solid #f0ebe0;"><strong>los</strong> libros</td><td style="padding:12px 16px;border-bottom:1px solid #f0ebe0;"><strong>unos</strong> libros</td></tr>
+          <tr><td style="padding:12px 16px;color:#888;font-size:13px;">Plural F</td><td style="padding:12px 16px;"><strong>las</strong> clases</td><td style="padding:12px 16px;"><strong>unas</strong> clases</td></tr>
+        </tbody>
+      </table>
+      <div class="tip-box" style="margin-top:16px;">
+        <strong>💡 Tip:</strong> Most nouns ending in <strong>-o</strong> are masculine; most ending in <strong>-a</strong> are feminine. Learn every noun WITH its article: <em>el libro</em>, <em>la clase</em>.
+      </div>
+      <div class="ojo-box">
+        <strong>¡OJO!</strong> Some nouns ending in <strong>-e</strong> or a consonant can be either gender: <em>el/la estudiante</em>, <em>el examen</em> (M), <em>la clase</em> (F). When in doubt, look it up and add it to your vocabulary notebook with its article.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXERCISES -->
+<div id="tab-exercises" class="section">
+  <h2 class="section-title"><span>Ejercicios</span> 6, 7 & 8 & 9</h2>
+  <p class="section-sub">Type your answers and check them instantly</p>
+
+  <!-- EJ 6 -->
+  <div class="exercise-box">
+    <div class="exercise-header">
+      <strong>Ejercicio 6 — Asociaciones</strong>
+      Best Activity for the Situation · Escribe la actividad más lógica para cada situación
+    </div>
+    <div class="exercise-body">
+      <div class="word-bank">
+        <strong>Word Bank</strong>
+        <div class="wb-words" id="wb6"></div>
+      </div>
+      <div id="ej6-items"></div>
+      <div class="check-btn-row">
+        <button class="btn btn-primary" onclick="checkEj6()">Check Answers</button>
+        <button class="btn btn-secondary" onclick="resetEj6()">Reset</button>
+      </div>
+      <div class="score-bar" id="ej6-score" style="display:none">
+        <div class="score-num" id="ej6-score-num">0/8</div>
+        <div id="ej6-score-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EJ 7 -->
+  <div class="exercise-box">
+    <div class="exercise-header">
+      <strong>Ejercicio 7 — Tablas</strong>
+      Conjugate Three Verbs · Completa cada tabla
+    </div>
+    <div class="exercise-body">
+      <div id="ej7-tables"></div>
+      <div class="check-btn-row">
+        <button class="btn btn-primary" onclick="checkEj7()">Check Answers</button>
+        <button class="btn btn-secondary" onclick="resetEj7()">Reset</button>
+      </div>
+      <div class="score-bar" id="ej7-score" style="display:none">
+        <div class="score-num" id="ej7-score-num">0/15</div>
+        <div id="ej7-score-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EJ 8 -->
+  <div class="exercise-box">
+    <div class="exercise-header">
+      <strong>Ejercicio 8 — Completar</strong>
+      Regular Verbs in Context · Completa con la forma correcta del verbo
+    </div>
+    <div class="exercise-body">
+      <div id="ej8-items"></div>
+      <div class="check-btn-row">
+        <button class="btn btn-primary" onclick="checkEj8()">Check Answers</button>
+        <button class="btn btn-secondary" onclick="resetEj8()">Reset</button>
+      </div>
+      <div class="score-bar" id="ej8-score" style="display:none">
+        <div class="score-num" id="ej8-score-num">0/10</div>
+        <div id="ej8-score-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EJ 9 -->
+  <div class="exercise-box">
+    <div class="exercise-header">
+      <strong>Ejercicio 9 — Artículos</strong>
+      Write the Definite and Indefinite Article · Escribe el artículo definido Y el indefinido
+    </div>
+    <div class="exercise-body">
+      <div id="ej9-items"></div>
+      <div class="check-btn-row">
+        <button class="btn btn-primary" onclick="checkEj9()">Check Answers</button>
+        <button class="btn btn-secondary" onclick="resetEj9()">Reset</button>
+      </div>
+      <div class="score-bar" id="ej9-score" style="display:none">
+        <div class="score-num" id="ej9-score-num">0/20</div>
+        <div id="ej9-score-msg"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VIDEO LOG -->
+<div id="tab-videolog" class="section">
+  <h2 class="section-title">🎥 <span>Video Log</span> 1</h2>
+  <p class="section-sub">Mi perfil en línea · My Online Profile · Due Sunday night</p>
+
+  <div style="background:white;border-radius:12px;border:1px solid #e0d8cc;overflow:hidden;margin-bottom:24px;">
+    <div style="background:linear-gradient(135deg,#6B3FA0,#9B59B6);color:white;padding:14px 20px;font-size:14px;font-weight:600;">
+      🎬 Recording Guide · Guía de grabación
+    </div>
+    <div class="vlog-guide" style="padding:20px;">
+      <div class="vlog-step">
+        <div class="step-num">1–2</div>
+        <div class="step-content">
+          <div class="step-label">Name + Origin</div>
+          <div class="step-template">Me llamo... / Soy de...</div>
+        </div>
+      </div>
+      <div class="vlog-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-label">What you study or do</div>
+          <div class="step-template">Estudio [subject] en SPSCC. / Trabajo en [place]. / Estudio y trabajo en [place].</div>
+        </div>
+      </div>
+      <div class="vlog-step">
+        <div class="step-num">4–5</div>
+        <div class="step-content">
+          <div class="step-label">Two or three activities you like</div>
+          <div class="step-template">Me gusta(n)...</div>
+        </div>
+      </div>
+      <div class="vlog-step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <div class="step-label">Why you are learning Spanish</div>
+          <div class="step-template">Estudio español porque...</div>
+        </div>
+      </div>
+      <div class="vlog-step" style="border-bottom:none">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <div class="step-label">One more personal detail</div>
+          <div class="step-prompt">Your choice! Add something interesting about yourself.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:white;border-radius:12px;border:1px solid #e0d8cc;padding:24px;margin-bottom:24px;">
+    <div style="font-weight:600;color:var(--navy);font-size:15px;margin-bottom:14px;">✍️ Write your script here / Escribe tu guión aquí</div>
+    <textarea class="script-textarea" id="script-area" placeholder="Me llamo... Soy de... Estudio... Me gusta(n)... Estudio español porque..."></textarea>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:13px;color:#888;">
+      <span id="word-count">0 words</span>
+      <span>Aim for ~100–130 words (60–90 seconds)</span>
+    </div>
+  </div>
+
+  <div style="background:white;border-radius:12px;border:1px solid #e0d8cc;padding:20px;">
+    <div class="checklist-title">✅ Submission Checklist</div>
+    <div class="checklist" id="checklist">
+      <label class="check-item"><input type="checkbox" onchange="updateCheck(this)"> 60–90 seconds long</label>
+      <label class="check-item"><input type="checkbox" onchange="updateCheck(this)"> At least 3 different verbs used</label>
+      <label class="check-item"><input type="checkbox" onchange="updateCheck(this)"> Correct articles on all nouns</label>
+      <label class="check-item"><input type="checkbox" onchange="updateCheck(this)"> <em>ser</em> used at least once</label>
+      <label class="check-item"><input type="checkbox" onchange="updateCheck(this)"> <em>llamarse</em> used at least once</label>
+      <label class="check-item"><input type="checkbox" onchange="updateCheck(this)"> Speak directly to camera</label>
+    </div>
+    <div id="checklist-progress" style="margin-top:14px;font-size:13px;color:var(--teal);font-weight:600;"></div>
+  </div>
+</div>
+
+<!-- RESOURCES -->
+<div id="tab-resources" class="section">
+  <h2 class="section-title"><span>Online</span> Resources</h2>
+  <p class="section-sub">Semana 2 · Week 2 Outside Materials</p>
+
+  <div class="resource-day">
+    <div class="resource-day-title">📅 Weekend — Vocabulario 2 + AR/-ER/-IR Verbs</div>
+    <div class="resource-item">
+      <span class="resource-icon">🎬</span>
+      <div>
+        <div class="resource-label">Regular -AR Verbs Explained</div>
+        <div class="resource-desc">Señor Jordan Spanish — Video tutorial</div>
+        <a class="resource-link" href="https://www.youtube.com/@SenorJordanSpanish/search?query=AR+verbs" target="_blank">youtube.com/@SenorJordanSpanish → AR verbs ↗</a>
+      </div>
+    </div>
+    <div class="resource-item">
+      <span class="resource-icon">📝</span>
+      <div>
+        <div class="resource-label">AR/ER/IR Verb Conjugation Practice</div>
+        <div class="resource-desc">Conjuguemos — Interactive drilling</div>
+        <a class="resource-link" href="https://conjuguemos.com/verb/2035489" target="_blank">conjuguemos.com/verb/2035489 ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="resource-day">
+    <div class="resource-day-title">📅 Monday — Regular Verbs in Action</div>
+    <div class="resource-item">
+      <span class="resource-icon">🎬</span>
+      <div>
+        <div class="resource-label">Regular -ER and -IR Verbs</div>
+        <div class="resource-desc">Butterfly Spanish — Video tutorial</div>
+        <a class="resource-link" href="https://www.youtube.com/@ButterflySpanish/search?query=ER+IR+verbs" target="_blank">youtube.com/@ButterflySpanish → ER IR verbs ↗</a>
+      </div>
+    </div>
+    <div class="resource-item">
+      <span class="resource-icon">📝</span>
+      <div>
+        <div class="resource-label">-ER / -IR Verb Drills</div>
+        <div class="resource-desc">Conjuguemos — Interactive drilling</div>
+        <a class="resource-link" href="https://conjuguemos.com/verb/992827" target="_blank">conjuguemos.com/verb/992827 ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="resource-day">
+    <div class="resource-day-title">📅 Tuesday — Artículos y Sustantivos</div>
+    <div class="resource-item">
+      <span class="resource-icon">🎬</span>
+      <div>
+        <div class="resource-label">Spanish Nouns & Articles – Gender and Number</div>
+        <div class="resource-desc">SpanishPod101 — Video tutorial</div>
+        <a class="resource-link" href="https://www.youtube.com/@spanishpod101/search?query=articles+nouns+gender" target="_blank">youtube.com/@spanishpod101 → articles nouns gender ↗</a>
+      </div>
+    </div>
+    <div class="resource-item">
+      <span class="resource-icon">📝</span>
+      <div>
+        <div class="resource-label">Noun Gender Practice</div>
+        <div class="resource-desc">SpanishDict — Grammar guide & practice</div>
+        <a class="resource-link" href="https://www.spanishdict.com/guide/spanish-nouns" target="_blank">spanishdict.com/guide/spanish-nouns ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="resource-day">
+    <div class="resource-day-title">📅 Wednesday — Video Log Workshop + Quiz</div>
+    <div class="resource-item">
+      <span class="resource-icon">🎬</span>
+      <div>
+        <div class="resource-label">Writing a Spanish Profile – Intro Tips</div>
+        <div class="resource-desc">Butterfly Spanish — Video tutorial</div>
+        <a class="resource-link" href="https://www.youtube.com/@ButterflySpanish/search?query=introduce+yourself+Spanish" target="_blank">youtube.com/@ButterflySpanish → introduce yourself ↗</a>
+      </div>
+    </div>
+    <div class="resource-item">
+      <span class="resource-icon">🃏</span>
+      <div>
+        <div class="resource-label">Vocabulary Flashcard Set: Actividades de aprendizaje</div>
+        <div class="resource-desc">Quizlet — Flashcard sets</div>
+        <a class="resource-link" href="https://quizlet.com/search?query=spanish+learning+activities+vocabulary&type=sets" target="_blank">quizlet.com → spanish learning activities vocabulary ↗</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS STRIP -->
+<div class="progress-strip">
+  <span>Progress</span>
+  <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar" style="width:0%"></div></div>
+  <span class="progress-label" id="progress-text">0%</span>
+</div>
+
+<script>
+// ===================== DATA =====================
+const vocab = [
+  {es:'hablar', en:'to speak'},
+  {es:'escuchar', en:'to listen'},
+  {es:'leer', en:'to read'},
+  {es:'escribir', en:'to write'},
+  {es:'practicar', en:'to practice'},
+  {es:'memorizar', en:'to memorize'},
+  {es:'preguntar', en:'to ask (a question)'},
+  {es:'responder / contestar', en:'to answer'},
+  {es:'repetir', en:'to repeat'},
+  {es:'estudiar', en:'to study'},
+  {es:'aprender', en:'to learn'},
+  {es:'entender', en:'to understand'},
+];
+
+const ej6Data = [
+  {text:'You have a vocabulary exam tomorrow and need to ___ all 40 words.', answer:'memorizar'},
+  {text:"You don't understand a grammar point, so you ___ to the professor.", answer:'preguntar'},
+  {text:'Your professor is explaining the homework; you need to ___ carefully.', answer:'escuchar'},
+  {text:'The task says to produce a paragraph; you ___ in Spanish.', answer:'escribir'},
+  {text:'You want to improve conversation; you ___ with native speakers.', answer:'hablar'},
+  {text:'The instructions are in Spanish; you ___ them first.', answer:'leer'},
+  {text:'Your professor said something unclear; you ask them to ___ it.', answer:'repetir'},
+  {text:'You hear a new word and want to understand its meaning; you ___ it.', answer:'aprender'},
+];
+
+const ej7Data = [
+  { verb:'estudiar', type:'-ar', stem:'estudi', rows:[
+    {p:'yo', ans:'estudio'},{p:'tú', ans:'estudias'},{p:'él/ella/Ud.', ans:'estudia'},
+    {p:'nosotros/as', ans:'estudiamos'},{p:'ellos/Uds.', ans:'estudian'}
+  ]},
+  { verb:'leer', type:'-er', stem:'le', rows:[
+    {p:'yo', ans:'leo'},{p:'tú', ans:'lees'},{p:'él/ella/Ud.', ans:'lee'},
+    {p:'nosotros/as', ans:'leemos'},{p:'ellos/Uds.', ans:'leen'}
+  ]},
+  { verb:'escribir', type:'-ir', stem:'escrib', rows:[
+    {p:'yo', ans:'escribo'},{p:'tú', ans:'escribes'},{p:'él/ella/Ud.', ans:'escribe'},
+    {p:'nosotros/as', ans:'escribimos'},{p:'ellos/Uds.', ans:'escriben'}
+  ]},
+];
+
+const ej8Data = [
+  {text:'Yo ___ español todos los días.', hint:'(estudiar)', answer:'estudio'},
+  {text:'María ___ muchos libros de literatura.', hint:'(leer)', answer:'lee'},
+  {text:'Nosotros ___ correos electrónicos en clase.', hint:'(escribir)', answer:'escribimos'},
+  {text:'¿Tú ___ música mientras estudias?', hint:'(escuchar)', answer:'escuchas'},
+  {text:'Los estudiantes ___ el vocabulario nuevo.', hint:'(practicar)', answer:'practican'},
+  {text:'Ella ___ agua durante el examen.', hint:'(beber)', answer:'bebe'},
+  {text:'¿Ustedes ___ después de clase?', hint:'(caminar)', answer:'caminan'},
+  {text:'Yo ___ un mensaje de texto a mi profesora.', hint:'(escribir)', answer:'escribo'},
+  {text:'Nosotros ___ en la cafetería a las doce.', hint:'(comer)', answer:'comemos'},
+  {text:'¿Tú ___ inglés y español?', hint:'(hablar)', answer:'hablas'},
+];
+
+const ej9Data = [
+  {noun:'estudiante', def:'el', indef:'un'},
+  {noun:'profesora', def:'la', indef:'una'},
+  {noun:'libros', def:'los', indef:'unos'},
+  {noun:'clase', def:'la', indef:'una'},
+  {noun:'diccionario', def:'el', indef:'un'},
+  {noun:'tareas', def:'las', indef:'unas'},
+  {noun:'compañeros', def:'los', indef:'unos'},
+  {noun:'universidad', def:'la', indef:'una'},
+  {noun:'examen', def:'el', indef:'un'},
+  {noun:'lenguas', def:'las', indef:'unas'},
+];
+
+// ===================== TABS =====================
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ===================== VOCAB =====================
+let fcIndex = 0, fcFlipped = false;
+
+function buildVocabGrid() {
+  const grid = document.getElementById('vocab-grid-area');
+  grid.innerHTML = vocab.map(v => `
+    <div class="vocab-card">
+      <span class="vocab-es">${v.es}</span>
+      <span class="vocab-en">${v.en}</span>
+    </div>
+  `).join('');
+}
+
+function startFlashcards() {
+  fcIndex = 0; fcFlipped = false;
+  document.getElementById('vocab-grid-area').style.display = 'none';
+  document.getElementById('flashcard-area').style.display = 'block';
+  document.getElementById('flashcard').classList.remove('flipped');
+  updateCard();
+}
+
+function showGrid() {
+  document.getElementById('flashcard-area').style.display = 'none';
+  document.getElementById('vocab-grid-area').style.display = 'grid';
+}
+
+function updateCard() {
+  document.getElementById('card-es').textContent = vocab[fcIndex].es;
+  document.getElementById('card-en').textContent = vocab[fcIndex].en;
+  document.getElementById('fc-counter').textContent = `${fcIndex+1} / ${vocab.length}`;
+  document.getElementById('flashcard').classList.remove('flipped');
+  fcFlipped = false;
+}
+
+function flipCard() {
+  fcFlipped = !fcFlipped;
+  document.getElementById('flashcard').classList.toggle('flipped', fcFlipped);
+}
+
+function nextCard() { fcIndex = (fcIndex + 1) % vocab.length; updateCard(); }
+function prevCard() { fcIndex = (fcIndex - 1 + vocab.length) % vocab.length; updateCard(); }
+
+// ===================== EJ 6 =====================
+function buildEj6() {
+  const wb = document.getElementById('wb6');
+  const wordBank = ['hablar','escuchar','leer','escribir','practicar','memorizar','preguntar','estudiar','aprender','repetir'];
+  wb.innerHTML = wordBank.map(w => `<span class="wb-word">${w}</span>`).join('');
+
+  const container = document.getElementById('ej6-items');
+  container.innerHTML = ej6Data.map((item, i) => `
+    <div class="ex-item">
+      <span class="ex-num">${i+1}.</span>
+      <span class="ex-text">${item.text.replace('___', `<input class="fill-blank" id="ej6-${i}" placeholder="..." autocomplete="off" autocorrect="off" spellcheck="false">`)}</span>
+    </div>
+    <div class="feedback" id="ej6-fb-${i}"></div>
+  `).join('');
+}
+
+function normalize(s) { return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+
+function checkEj6() {
+  let correct = 0;
+  ej6Data.forEach((item, i) => {
+    const inp = document.getElementById(`ej6-${i}`);
+    const fb = document.getElementById(`ej6-fb-${i}`);
+    const val = normalize(inp.value);
+    const ans = normalize(item.answer);
+    if (val === ans) {
+      inp.className = 'fill-blank correct'; correct++;
+      fb.className = 'feedback correct show'; fb.textContent = '✓ Correct!';
+    } else {
+      inp.className = 'fill-blank wrong';
+      fb.className = 'feedback wrong show'; fb.textContent = `✗ Answer: ${item.answer}`;
+    }
+  });
+  const scoreEl = document.getElementById('ej6-score');
+  scoreEl.style.display = 'flex';
+  document.getElementById('ej6-score-num').textContent = `${correct}/8`;
+  document.getElementById('ej6-score-msg').textContent = correct === 8 ? '🎉 ¡Perfecto!' : correct >= 6 ? '¡Muy bien!' : 'Keep practicing!';
+  updateProgress();
+}
+
+function resetEj6() {
+  ej6Data.forEach((_, i) => {
+    const inp = document.getElementById(`ej6-${i}`);
+    inp.value = ''; inp.className = 'fill-blank';
+    const fb = document.getElementById(`ej6-fb-${i}`);
+    fb.className = 'feedback';
+  });
+  document.getElementById('ej6-score').style.display = 'none';
+}
+
+// ===================== EJ 7 =====================
+function buildEj7() {
+  const colors = [{ bg: 'var(--navy)' }, { bg: 'var(--teal)' }, { bg: 'var(--sage)' }];
+  const container = document.getElementById('ej7-tables');
+  container.innerHTML = ej7Data.map((verb, vi) => `
+    <div style="margin-bottom:24px;">
+      <div style="background:${colors[vi].bg};color:white;padding:10px 20px;border-radius:8px 8px 0 0;font-weight:600;font-size:14px;">
+        ${String.fromCharCode(65+vi)}. ${verb.verb.toUpperCase()} (${verb.type})
+      </div>
+      <table class="conj-ex-table" style="background:white;border:1px solid #e0d8cc;border-top:none;border-radius:0 0 8px 8px;">
+        ${verb.rows.map((r, ri) => `
+          <tr>
+            <td class="pron" style="width:140px">${r.p}</td>
+            <td><input id="ej7-${vi}-${ri}" placeholder="..." autocomplete="off" autocorrect="off" spellcheck="false"></td>
+          </tr>
+        `).join('')}
+      </table>
+    </div>
+  `).join('');
+}
+
+function checkEj7() {
+  let correct = 0, total = 0;
+  ej7Data.forEach((verb, vi) => {
+    verb.rows.forEach((r, ri) => {
+      total++;
+      const inp = document.getElementById(`ej7-${vi}-${ri}`);
+      const val = normalize(inp.value);
+      if (val === normalize(r.ans)) {
+        inp.className = 'correct'; correct++;
+      } else {
+        inp.className = 'wrong';
+        inp.title = `Answer: ${r.ans}`;
+      }
+    });
+  });
+  const scoreEl = document.getElementById('ej7-score');
+  scoreEl.style.display = 'flex';
+  document.getElementById('ej7-score-num').textContent = `${correct}/${total}`;
+  document.getElementById('ej7-score-msg').textContent = correct === total ? '🎉 ¡Excelente!' : correct >= 12 ? '¡Muy bien!' : 'Review the endings!';
+  updateProgress();
+}
+
+function resetEj7() {
+  ej7Data.forEach((verb, vi) => {
+    verb.rows.forEach((_, ri) => {
+      const inp = document.getElementById(`ej7-${vi}-${ri}`);
+      inp.value = ''; inp.className = '';
+    });
+  });
+  document.getElementById('ej7-score').style.display = 'none';
+}
+
+// ===================== EJ 8 =====================
+function buildEj8() {
+  const container = document.getElementById('ej8-items');
+  container.innerHTML = ej8Data.map((item, i) => `
+    <div class="ex-item">
+      <span class="ex-num">${i+1}.</span>
+      <span class="ex-text">${item.text.replace('___', `<input class="fill-blank" id="ej8-${i}" placeholder="..." autocomplete="off" autocorrect="off" spellcheck="false">`)} <span style="color:#aaa;font-size:12px">${item.hint}</span></span>
+    </div>
+    <div class="feedback" id="ej8-fb-${i}"></div>
+  `).join('');
+}
+
+function checkEj8() {
+  let correct = 0;
+  ej8Data.forEach((item, i) => {
+    const inp = document.getElementById(`ej8-${i}`);
+    const fb = document.getElementById(`ej8-fb-${i}`);
+    const val = normalize(inp.value);
+    if (val === normalize(item.answer)) {
+      inp.className = 'fill-blank correct'; correct++;
+      fb.className = 'feedback correct show'; fb.textContent = '✓ Correct!';
+    } else {
+      inp.className = 'fill-blank wrong';
+      fb.className = 'feedback wrong show'; fb.textContent = `✗ Answer: ${item.answer}`;
+    }
+  });
+  const scoreEl = document.getElementById('ej8-score');
+  scoreEl.style.display = 'flex';
+  document.getElementById('ej8-score-num').textContent = `${correct}/10`;
+  document.getElementById('ej8-score-msg').textContent = correct === 10 ? '🎉 ¡Perfecto!' : correct >= 8 ? '¡Bien hecho!' : 'Review verb conjugations!';
+  updateProgress();
+}
+
+function resetEj8() {
+  ej8Data.forEach((_, i) => {
+    const inp = document.getElementById(`ej8-${i}`);
+    inp.value = ''; inp.className = 'fill-blank';
+    const fb = document.getElementById(`ej8-fb-${i}`);
+    fb.className = 'feedback';
+  });
+  document.getElementById('ej8-score').style.display = 'none';
+}
+
+// ===================== EJ 9 =====================
+function buildEj9() {
+  const container = document.getElementById('ej9-items');
+  container.innerHTML = ej9Data.map((item, i) => `
+    <div class="art-item">
+      <span class="ex-num">${i+1}.</span>
+      <span class="art-noun">${item.noun}</span>
+      <span style="font-size:14px;color:#555;">→</span>
+      <div class="art-group">
+        <span class="art-label">Definite:</span>
+        <input class="art-input" id="ej9-def-${i}" placeholder="el/la..." autocomplete="off" autocorrect="off" spellcheck="false">
+        <span class="art-label" style="margin-left:10px">Indefinite:</span>
+        <input class="art-input" id="ej9-indef-${i}" placeholder="un/una..." autocomplete="off" autocorrect="off" spellcheck="false">
+      </div>
+    </div>
+  `).join('');
+}
+
+function checkEj9() {
+  let correct = 0;
+  ej9Data.forEach((item, i) => {
+    const defInp = document.getElementById(`ej9-def-${i}`);
+    const indefInp = document.getElementById(`ej9-indef-${i}`);
+    if (normalize(defInp.value) === normalize(item.def)) {
+      defInp.className = 'art-input correct'; correct++;
+    } else {
+      defInp.className = 'art-input wrong';
+      defInp.title = `Answer: ${item.def}`;
+    }
+    if (normalize(indefInp.value) === normalize(item.indef)) {
+      indefInp.className = 'art-input correct'; correct++;
+    } else {
+      indefInp.className = 'art-input wrong';
+      indefInp.title = `Answer: ${item.indef}`;
+    }
+  });
+  const scoreEl = document.getElementById('ej9-score');
+  scoreEl.style.display = 'flex';
+  document.getElementById('ej9-score-num').textContent = `${correct}/20`;
+  document.getElementById('ej9-score-msg').textContent = correct === 20 ? '🎉 ¡Perfecto!' : correct >= 16 ? '¡Muy bien!' : 'Review gender & number!';
+  updateProgress();
+}
+
+function resetEj9() {
+  ej9Data.forEach((_, i) => {
+    const d = document.getElementById(`ej9-def-${i}`);
+    const id = document.getElementById(`ej9-indef-${i}`);
+    d.value = ''; d.className = 'art-input';
+    id.value = ''; id.className = 'art-input';
+  });
+  document.getElementById('ej9-score').style.display = 'none';
+}
+
+// ===================== VIDEO LOG =====================
+document.addEventListener('DOMContentLoaded', () => {
+  const ta = document.getElementById('script-area');
+  if (ta) {
+    ta.addEventListener('input', () => {
+      const words = ta.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+      document.getElementById('word-count').textContent = `${words} word${words !== 1 ? 's' : ''}`;
+    });
+  }
+});
+
+function updateCheck(cb) {
+  const label = cb.parentElement;
+  label.classList.toggle('done', cb.checked);
+  const total = document.querySelectorAll('#checklist input').length;
+  const checked = document.querySelectorAll('#checklist input:checked').length;
+  const prog = document.getElementById('checklist-progress');
+  prog.textContent = checked === total ? '🎉 ¡Listo para grabar! Ready to record!' : `${checked}/${total} items complete`;
+  updateProgress();
+}
+
+// ===================== PROGRESS =====================
+function updateProgress() {
+  const scores = [
+    { id: 'ej6-score', max: 8 },
+    { id: 'ej7-score', max: 15 },
+    { id: 'ej8-score', max: 10 },
+    { id: 'ej9-score', max: 20 },
+  ];
+  let done = scores.filter(s => document.getElementById(s.id).style.display !== 'none').length;
+  const pct = Math.round((done / scores.length) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = pct + '% exercises checked';
+}
+
+// ===================== INIT =====================
+buildVocabGrid();
+buildEj6();
+buildEj7();
+buildEj8();
+buildEj9();
+</script>
+</body>
+</html>
